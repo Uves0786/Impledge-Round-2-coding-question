@@ -1,0 +1,114 @@
+{
+	"info": {
+		"_postman_id": "b8669101-c3ed-4d5e-ac33-1bd51caac4b6",
+		"name": "Impledge_QA_MohdUvesKhan",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32033053",
+		"_collection_link": "https://orange-zodiac-438183.postman.co/workspace/impledge-Workspace~348d3e2c-ccf9-4384-8ea5-4b19a645ed6c/collection/32033053-b8669101-c3ed-4d5e-ac33-1bd51caac4b6?action=share&source=collection_link&creator=32033053"
+	},
+	"item": [
+		{
+			"name": "Address - Verify",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body has no errors\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"\\\"errors\\\":[]\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response ZIP verified\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"06810\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "jBucTRfsQP5eAweqv7JQrA",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n    \"company\": \"Residence Inn\",\r\n    \"street1\": \"22 Segar St\",\r\n    \"street2\": \"\",\r\n    \"city\": \"Danbury\",\r\n    \"zip\": \"06810\",\r\n    \"country\": \"US\",\r\n    \"phone\": \"855-782-3877\",\r\n    \"email\": \"shipper@mailinator.com\"\r\n  }"
+				},
+				"url": {
+					"raw": "https://api.easypost.com/v2/addresses?verify_strict[]=true",
+					"protocol": "https",
+					"host": [
+						"api",
+						"easypost",
+						"com"
+					],
+					"path": [
+						"v2",
+						"addresses"
+					],
+					"query": [
+						{
+							"key": "verify_strict[]",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Shipment Details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"pm.test(\"Selected rate retail rate is equal to 12\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData.selected_rate.retail_rate).to.equal(12);\r",
+							"});\r",
+							"pm.test(\"Retail rate is greater than list rate\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData.selected_rate.retail_rate).to.be.greaterThan(responseData.selected_rate.list_rate);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.easypost.com/v2/shipments/shp_e0b570fd1d7d4b62bd206917eae5881a",
+					"protocol": "https",
+					"host": [
+						"api",
+						"easypost",
+						"com"
+					],
+					"path": [
+						"v2",
+						"shipments",
+						"shp_e0b570fd1d7d4b62bd206917eae5881a"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
